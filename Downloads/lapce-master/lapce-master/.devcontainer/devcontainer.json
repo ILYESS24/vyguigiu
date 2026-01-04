@@ -1,0 +1,13 @@
+{
+    "image": "ghcr.io/Aurion IDE/lapdev-devcontainer-Aurion IDE",
+    "forwardPorts": [6080],
+    "portsAttributes": {
+        "6080": {
+            "label": "VNC",
+        }
+    }
+}
+
+
+
+

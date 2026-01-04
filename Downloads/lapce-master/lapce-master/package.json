@@ -1,0 +1,34 @@
+{
+  "name": "aurion-ide-website",
+  "version": "0.4.5",
+  "description": "Aurion IDE - Lightning-fast And Powerful Code Editor",
+  "main": "index.js",
+  "scripts": {
+    "build": "node scripts/build-website.js",
+    "dev": "node scripts/dev-server.js",
+    "deploy": "wrangler pages deploy dist",
+    "preview": "wrangler pages dev dist",
+    "deploy:check": "node scripts/deploy-check.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aurion-ide/aurion-ide.git"
+  },
+  "keywords": [
+    "code-editor",
+    "rust",
+    "ide",
+    "developer-tools"
+  ],
+  "author": "Aurion IDE Team <contact@aurion-ide.com>",
+  "license": "Apache-2.0",
+  "homepage": "https://aurion-ide.com",
+  "devDependencies": {
+    "wrangler": "^2.20.0",
+    "marked": "^9.1.2",
+    "highlight.js": "^11.8.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

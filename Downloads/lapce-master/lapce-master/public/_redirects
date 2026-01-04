@@ -1,0 +1,11 @@
+# Redirects for Cloudflare Pages
+/docs/*  https://docs.aurion-ide.com/:splat  302
+/download  /#installation  302
+/install  /#installation  302
+
+# Legacy Lapce URLs redirect to new Aurion IDE URLs
+/lapce/*  /:splat  301
+/lapce  /  301
+
+# API endpoints (if any)
+/api/*  https://api.aurion-ide.com/:splat  302

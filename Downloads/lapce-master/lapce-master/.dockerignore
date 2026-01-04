@@ -1,0 +1,12 @@
+.github
+.vscode
+.Aurion IDE
+docs
+extra/linux/docker
+extra/macos
+extra/windows
+target
+Aurion IDE.spec
+
+
+

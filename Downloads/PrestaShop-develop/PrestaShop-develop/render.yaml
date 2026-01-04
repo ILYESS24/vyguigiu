@@ -1,0 +1,85 @@
+services:
+  # Application PrestaShop
+  - type: web
+    name: prestashop
+    runtime: docker
+    dockerfilePath: ./Dockerfile.render
+    plan: starter
+    envVars:
+      - key: DB_SERVER
+        value: mysql
+      - key: DB_NAME
+        value: prestashop
+      - key: DB_USER
+        value: root
+      - key: DB_PASSWD
+        fromSecret: mysql_password
+      - key: DB_PREFIX
+        value: ps_
+      - key: PS_INSTALL_AUTO
+        value: 1
+      - key: PS_DEV_MODE
+        value: 0
+      - key: PS_ENABLE_SSL
+        value: 1
+      - key: PS_FOLDER_ADMIN
+        value: admin
+      - key: PS_FOLDER_INSTALL
+        value: install
+      - key: PS_COUNTRY
+        value: fr
+      - key: PS_LANGUAGE
+        value: fr
+      - key: PS_CACHE_ENABLED
+        value: 1
+      - key: PS_SMARTY_CACHE
+        value: 1
+      - key: PS_COOKIE_SAMESITE
+        value: Lax
+      - key: ADMIN_MAIL
+        value: demo@prestashop.com
+      - key: ADMIN_PASSWD
+        value: Correct Horse Battery Staple
+      - key: PS_DOMAIN
+        fromService:
+          type: web
+          name: prestashop
+          property: host
+      # Optimisations pour 512MB
+      - key: PHP_MEMORY_LIMIT
+        value: 128M
+      - key: UPLOAD_MAX_FILESIZE
+        value: 8M
+      - key: POST_MAX_SIZE
+        value: 8M
+      - key: MAX_EXECUTION_TIME
+        value: 30
+      - key: OPCACHE_ENABLE
+        value: 1
+      - key: OPCACHE_MEMORY_CONSUMPTION
+        value: 32
+
+  # Base de données MySQL
+  - type: pvc
+    name: mysql
+    runtime: docker
+    dockerfilePath: ./Dockerfile.mysql
+    plan: starter
+    envVars:
+      - key: MYSQL_ROOT_PASSWORD
+        generateValue: true
+      - key: MYSQL_DATABASE
+        value: prestashop
+      - key: MYSQL_USER
+        value: prestashop_user
+      - key: MYSQL_PASSWORD
+        generateValue: true
+
+# Variables d'environnement communes
+envVarGroups:
+  - name: prestashop-env
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: COMPOSER_ALLOW_SUPERUSER
+        value: 1

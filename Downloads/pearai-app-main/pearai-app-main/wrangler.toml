@@ -1,0 +1,20 @@
+name = "pearai-app"
+compatibility_date = "2024-01-01"
+pages_build_output_dir = "vscode-web"
+
+[env.production]
+routes = [
+  { pattern = "/*", zone_name = "your-domain.com" }
+]
+
+[[pages_build_config]]
+# Build configuration for Cloudflare Pages
+build_command = "npm run deploy-web"
+destination_dir = "vscode-web"
+root_dir = "."
+watch_dir = "src"
+
+# Environment variables for the build
+[vars]
+NODE_ENV = "production"
+VSCODE_WEB_BUILD = "true"

@@ -1,0 +1,116 @@
+# Apache configuration for PrestaShop on Railway + Cloudflare
+# Rename this file to .htaccess after deployment
+
+# Force HTTPS (Cloudflare handles SSL)
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Security headers (complemented by Cloudflare)
+<IfModule mod_headers.c>
+    # HSTS (HTTP Strict Transport Security)
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+    # Prevent clickjacking
+    Header always set X-Frame-Options DENY
+
+    # XSS protection
+    Header always set X-XSS-Protection "1; mode=block"
+
+    # MIME type sniffing protection
+    Header always set X-Content-Type-Options nosniff
+
+    # Referrer policy
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+    # Content Security Policy (adjust according to your needs)
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' *.cloudflare.com *.google.com *.facebook.com; style-src 'self' 'unsafe-inline' *.google.com; img-src 'self' data: https: *.cloudflare.com; font-src 'self' data:; connect-src 'self' *.cloudflare.com; frame-src *.facebook.com *.google.com;"
+
+    # Remove server signature
+    Header always unset X-Powered-By
+    ServerSignature Off
+</IfModule>
+
+# Compression (Cloudflare handles this, but good to have as fallback)
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+    AddOutputFilterByType DEFLATE application/json
+</IfModule>
+
+# Cache control for static assets (Cloudflare manages most of this)
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpg "access plus 1 month"
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType image/gif "access plus 1 month"
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/pdf "access plus 1 month"
+    ExpiresByType text/javascript "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType application/x-shockwave-flash "access plus 1 month"
+    ExpiresByType image/x-icon "access plus 1 year"
+    ExpiresDefault "access plus 2 days"
+</IfModule>
+
+# Protect sensitive files
+<FilesMatch "\.(htaccess|htpasswd|ini|log|sh|sql|conf)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Protect configuration files
+<FilesMatch "(config|parameters)\.(yml|php)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Block access to backup files
+<FilesMatch "\.(bak|backup|old|orig|original|tmp|temp)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# PrestaShop specific rules
+RewriteRule ^api/?(.*)$ webservice/dispatcher.php?url=$1 [QSA,L]
+RewriteRule ^([0-9])(-[_a-zA-Z0-9-]*)?(-[0-9]+)?/.+\.jpg$ img/p/$1/$1$2$3.jpg [L]
+RewriteRule ^([0-9])([0-9])(-[_a-zA-Z0-9-]*)?(-[0-9]+)?/.+\.jpg$ img/p/$1/$2/$1$2$3$4.jpg [L]
+RewriteRule ^([0-9])([0-9])([0-9])(-[_a-zA-Z0-9-]*)?(-[0-9]+)?/.+\.jpg$ img/p/$1/$2/$3/$1$2$3$4$5.jpg [L]
+RewriteRule ^([0-9])([0-9])([0-9])([0-9])(-[_a-zA-Z0-9-]*)?(-[0-9]+)?/.+\.jpg$ img/p/$1/$2/$3/$4/$1$2$3$4$5$6.jpg [L]
+RewriteRule ^([0-9])([0-9])([0-9])([0-9])([0-9])(-[_a-zA-Z0-9-]*)?(-[0-9]+)?/.+\.jpg$ img/p/$1/$2/$3/$4/$5/$1$2$3$4$5$6$7.jpg [L]
+RewriteRule ^([0-9])([0-9])([0-9])([0-9])([0-9])([0-9])(-[_a-zA-Z0-9-]*)?(-[0-9]+)?/.+\.jpg$ img/p/$1/$2/$3/$4/$5/$6/$1$2$3$4$5$6$7$8.jpg [L]
+RewriteRule ^([0-9])([0-9])([0-9])([0-9])([0-9])([0-9])([0-9])(-[_a-zA-Z0-9-]*)?(-[0-9]+)?/.+\.jpg$ img/p/$1/$2/$3/$4/$5/$6/$7/$1$2$3$4$5$6$7$8$9.jpg [L]
+RewriteRule ^([0-9])([0-9])([0-9])([0-9])([0-9])([0-9])([0-9])([0-9])(-[_a-zA-Z0-9-]*)?(-[0-9]+)?/.+\.jpg$ img/p/$1/$2/$3/$4/$5/$6/$7/$8/$1$2$3$4$5$6$7$8$9$10.jpg [L]
+
+# Cloudflare specific headers
+SetEnvIf X-Forwarded-Proto https HTTPS=on
+
+# Real IP from Cloudflare
+RemoteIPHeader CF-Connecting-IP
+RemoteIPTrustedProxy 173.245.48.0/20
+RemoteIPTrustedProxy 103.21.244.0/22
+RemoteIPTrustedProxy 103.22.200.0/22
+RemoteIPTrustedProxy 103.31.4.0/22
+RemoteIPTrustedProxy 141.101.64.0/18
+RemoteIPTrustedProxy 108.162.192.0/18
+RemoteIPTrustedProxy 190.93.240.0/20
+RemoteIPTrustedProxy 188.114.96.0/20
+RemoteIPTrustedProxy 197.234.240.0/22
+RemoteIPTrustedProxy 198.41.128.0/17
+RemoteIPTrustedProxy 162.158.0.0/15
+RemoteIPTrustedProxy 104.16.0.0/13
+RemoteIPTrustedProxy 104.24.0.0/14
+RemoteIPTrustedProxy 172.64.0.0/13
+RemoteIPTrustedProxy 131.0.72.0/22
+
+# Error pages
+ErrorDocument 404 /404.php
+ErrorDocument 500 /500.php

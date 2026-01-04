@@ -1,0 +1,74 @@
+#!/usr/bin/env ruby
+require 'fileutils'
+
+puts "🚀 Configuration Spree API-Admin Only"
+puts "=" * 50
+
+# Vérification des prérequis
+puts "📋 Vérification des prérequis..."
+
+begin
+  # Vérifier Ruby
+  ruby_version = RUBY_VERSION
+  puts "✅ Ruby #{ruby_version}"
+
+  # Vérifier Bundler
+  `bundle --version`
+  puts "✅ Bundler OK"
+rescue
+  puts "❌ Bundler non installé. Installez avec: gem install bundler"
+  exit 1
+end
+
+# Installation des gems
+puts "\n📦 Installation des gems..."
+system("bundle install") || exit(1)
+
+# Configuration des variables d'environnement
+puts "\n🔧 Configuration des variables d'environnement..."
+
+env_file = ".env"
+unless File.exist?(env_file)
+  env_content = <<~ENV
+    # Base de données
+    DATABASE_URL=postgres://spree:password@localhost:5432/spree_admin_db
+
+    # Redis
+    REDIS_URL=redis://localhost:6379/0
+    REDIS_CACHE_URL=redis://localhost:6379/1
+
+    # Rails
+    SECRET_KEY_BASE=#{`bin/rails secret`.strip}
+    RAILS_ENV=development
+    RAILS_LOG_LEVEL=info
+    RAILS_MAX_THREADS=1
+
+    # Spree
+    DEVISE_SESSION_TIMEOUT=60
+  ENV
+
+  File.write(env_file, env_content)
+  puts "✅ Fichier .env créé"
+else
+  puts "ℹ️  Fichier .env existe déjà"
+end
+
+# Création de la base de données
+puts "\n🗄️  Configuration de la base de données..."
+system("bin/rails db:create") || puts("⚠️  Impossible de créer la DB (PostgreSQL pas configuré?)")
+system("bin/rails db:migrate") || exit(1)
+system("bin/rails db:seed") || exit(1)
+
+puts "\n🎉 Installation terminée!"
+puts ""
+puts "🌐 Accès :"
+puts "   Admin: http://localhost:3000/admin"
+puts "   API:   http://localhost:3000/api/v2"
+puts ""
+puts "👤 Compte admin par défaut:"
+puts "   Email: admin@example.com"
+puts "   Password: password"
+puts ""
+puts "🚀 Lancez avec: bin/rails server"
+puts ""
+puts "📖 Documentation: voir API_ADMIN_README.md"

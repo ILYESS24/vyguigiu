@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurion IDE - Éditeur de Code Ultra-Rapide</title>
+    <meta name="description" content="Aurion IDE - Éditeur de code ultra-rapide écrit en Rust avec une interface moderne">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+    <style>
+        body {
+            background-color: #0d1117;
+            color: #c9d1d9;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+        }
+        .markdown-body {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 45px;
+            background-color: #0d1117;
+            color: #c9d1d9;
+        }
+        .markdown-body h1 {
+            color: #58a6ff;
+            border-bottom: 1px solid #30363d;
+        }
+        .markdown-body h2, .markdown-body h3, .markdown-body h4 {
+            color: #f78166;
+        }
+        .markdown-body a {
+            color: #58a6ff;
+        }
+        .markdown-body code {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            color: #c9d1d9;
+        }
+        .markdown-body pre {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+        }
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin-bottom: 40px;
+        }
+        .hero h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+        .hero p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1>🚀 Aurion IDE</h1>
+        <p>Éditeur de Code Ultra-Rapide et Puissant</p>
+    </div>
+    <div class="markdown-body">
+        <h1 align="center">
+  <a href="https://Aurion IDE.dev" target="_blank">
+  Aurion IDE
+  </a>
+</h1>
+
+<h4 align="center">Lightning-fast And Powerful Code Editor</h4>
+
+<div align="center">
+  <a href="https://github.com/Aurion IDE/Aurion IDE/actions/workflows/ci.yml" target="_blank">
+    <img src="https://github.com/Aurion IDE/Aurion IDE/actions/workflows/ci.yml/badge.svg" />
+  </a>
+  <a href="https://discord.gg/n8tGJ6Rn6D" target="_blank">
+    <img src="https://img.shields.io/discord/946858761413328946?logo=discord" />
+  </a>
+  <a href="https://docs.Aurion IDE.dev" target="_blank">
+      <img src="https://img.shields.io/static/v1?label=Docs&message=docs.Aurion IDE.dev&color=blue" alt="Aurion IDE Docs">
+  </a>
+</div>
+<br/>
+
+
+<p>Aurion IDE (IPA: /læps/) is written in pure Rust, with a UI in [Floem](<a href="https://github.com/Aurion">https://github.com/Aurion</a> IDE/floem). It is designed with <a href="https://xi-editor.io/docs/rope_science_00.html">Rope Science</a> from the <a href="https://github.com/xi-editor/xi-editor">Xi-Editor</a>, enabling lightning-fast computation, and leverages <a href="https://github.com/gfx-rs/wgpu">wgpu</a> for rendering. More information about the features of Aurion IDE can be found on the [main website](<a href="https://Aurion">https://Aurion</a> IDE.dev) and user documentation can be found on [GitBook](<a href="https://docs.Aurion">https://docs.Aurion</a> IDE.dev/).</p>
+<p>![](<a href="https://github.com/Aurion">https://github.com/Aurion</a> IDE/Aurion IDE/blob/master/extra/images/screenshot.png?raw=true)</p>
+<h2>Features</h2>
+<ul>
+<li>Built-in LSP (<a href="https://microsoft.github.io/language-server-protocol/">Language Server Protocol</a>) support to give you intelligent code features such as: completion, diagnostics and code actions</li>
+<li>Modal editing support as first class citizen (Vim-like, and toggleable)</li>
+<li>Built-in remote development support inspired by <a href="https://code.visualstudio.com/docs/remote/remote-overview">VSCode Remote Development</a>. Enjoy the benefits of a &quot;local&quot; experience, and seamlessly gain the full power of a remote system. We also have <a href="https://lap.dev/">Lapdev</a> which can help manage your remote dev environments. </li>
+<li>Plugins can be written in programming languages that can compile to the <a href="https://wasi.dev/">WASI</a> format (C, Rust, <a href="https://www.assemblyscript.org/">AssemblyScript</a>)</li>
+<li>Built-in terminal, so you can execute commands in your workspace, without leaving Aurion IDE.</li>
+</ul>
+<h2>Installation</h2>
+<p>You can find pre-built releases for Windows, Linux and macOS [here](<a href="https://github.com/Aurion">https://github.com/Aurion</a> IDE/Aurion IDE/releases), or <a href="docs/installing-with-package-manager.md">installing with a package manager</a>.<br>If you&#39;d like to compile from source, you can find the <a href="docs/building-from-source.md">guide</a>.</p>
+<h2>Contributing</h2>
+<a href="https://ws.lap.dev/#https://github.com/Aurion IDE/Aurion IDE" target="_blank">
+      <img src="https://lap.dev/images/open-in-lapdev.svg?version=8" alt="Open in Lapdev">
+</a>
+
+<p><a href="https://lap.dev/">Lapdev</a>, developed by the Aurion IDE team, is a cloud dev env service similar to GitHub Codespaces. By clicking the button above, you&#39;ll be taken to a fully set up Aurion IDE dev env where you can browse the code and start developing. All dependencies are pre-installed, so you can get straight to code.</p>
+<p>Guidelines for contributing to Aurion IDE can be found in <a href="CONTRIBUTING.md"><code>CONTRIBUTING.md</code></a>.</p>
+<h2>Feedback &amp; Contact</h2>
+<p>The most popular place for Aurion IDE developers and users is on the <a href="https://discord.gg/n8tGJ6Rn6D">Discord server</a>.</p>
+<p>Or, join the discussion on [Reddit](<a href="https://www.reddit.com/r/Aurion">https://www.reddit.com/r/Aurion</a> IDE/) where we are just getting started.</p>
+<p>There is also a [Matrix Space](<a href="https://matrix.to/#/#Aurion">https://matrix.to/#/#Aurion</a> IDE-editor:matrix.org), which is linked to the content from the Discord server.</p>
+<h2>License</h2>
+<p>Aurion IDE is released under the Apache License Version 2, which is an open source license. You may contribute to this project, or use the code as you please as long as you adhere to its conditions. You can find a copy of the license text here: <a href="LICENSE"><code>LICENSE</code></a>.</p>
+
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+</body>
+</html>

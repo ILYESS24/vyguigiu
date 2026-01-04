@@ -1,0 +1,66 @@
+# Utiliser PHP 8.1 avec Apache
+FROM php:8.1-apache
+
+# Installer les extensions PHP nécessaires
+RUN apt-get update && apt-get install -y \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    libzip-dev \
+    libxml2-dev \
+    libicu-dev \
+    libonig-dev \
+    libcurl4-openssl-dev \
+    libssl-dev \
+    unzip \
+    git \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install \
+        pdo_mysql \
+        mysqli \
+        gd \
+        zip \
+        intl \
+        mbstring \
+        curl \
+        xml \
+        bcmath \
+        soap \
+        opcache
+
+# Installer Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Configurer Apache
+RUN a2enmod rewrite
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+
+# Créer le répertoire de l'application
+WORKDIR /var/www/html
+
+# Copier les fichiers du projet
+COPY . .
+
+# Installer les dépendances PHP
+RUN composer install --no-dev --optimize-autoloader --no-interaction
+
+# Définir les permissions
+RUN chown -R www-data:www-data /var/www/html
+RUN chmod -R 755 /var/www/html
+RUN chmod -R 777 /var/www/html/var/cache /var/www/html/var/logs /var/www/html/img /var/www/html/download /var/www/html/upload
+
+# Variables d'environnement pour la production
+ENV PS_INSTALL_AUTO=1
+ENV PS_DEV_MODE=0
+ENV PS_ENABLE_SSL=1
+ENV PS_FOLDER_ADMIN=admin
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+    CMD curl -f http://localhost/ || exit 1
+
+# Exposer le port 80
+EXPOSE 80
+
+# Démarrer Apache
+CMD ["apache2-foreground"]

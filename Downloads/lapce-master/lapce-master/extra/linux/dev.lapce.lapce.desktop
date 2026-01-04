@@ -1,0 +1,23 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+
+Name=Aurion IDE
+Comment=Lightning-fast and powerful code editor written in Rust
+Categories=Development;IDE;
+GenericName=Code Editor
+StartupWMClass=aurion-ide
+
+Icon=com.aurion-ide.aurion
+Exec=aurion-ide %F
+Terminal=false
+MimeType=text/plain;inode/directory;
+Actions=new-window;
+
+[Desktop Action new-window]
+Name=New Window
+Exec=aurion-ide --new %F
+Icon=com.aurion-ide.aurion
+
+
+

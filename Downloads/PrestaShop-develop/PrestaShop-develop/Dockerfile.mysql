@@ -1,0 +1,20 @@
+# MySQL optimisé pour Render (512MB RAM)
+FROM mysql:8.0
+
+# Configuration MySQL optimisée pour faible RAM
+COPY mysql.cnf /etc/mysql/conf.d/mysql.cnf
+
+# Variables d'environnement
+ENV MYSQL_ROOT_PASSWORD=root_password
+ENV MYSQL_DATABASE=prestashop
+ENV MYSQL_USER=prestashop_user
+ENV MYSQL_PASSWORD=user_password
+
+# Volume pour la persistance des données
+VOLUME /var/lib/mysql
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+    CMD mysqladmin ping -h localhost || exit 1
+
+EXPOSE 3306
